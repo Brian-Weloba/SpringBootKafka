@@ -1,0 +1,45 @@
+package dev.brianweloba.orderservice.service;
+
+import dev.brianweloba.orderservice.models.Order;
+import dev.brianweloba.orderservice.models.OrderItem;
+import dev.brianweloba.orderservice.repository.OrderItemRepository;
+import dev.brianweloba.orderservice.repository.OrderRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+
+@Service
+public class OrderService {
+    private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
+
+
+    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
+        this.orderRepository = orderRepository;
+        this.orderItemRepository = orderItemRepository;
+    }
+
+    public Order addOrder(Order order) throws NullPointerException,IllegalArgumentException{
+        Currency.getInstance(order.getCurrency());
+        return this.orderRepository.save(order);
+    }
+
+    public Order findOrderById(UUID id){
+        Optional<Order> orderOptional = this.orderRepository.findById(id);
+        return orderOptional.orElse(null);
+    }
+
+    public List<Order> findAllOrders(){
+        return  this.orderRepository.findAll();
+    }
+
+    public Order addOrderItem(OrderItem orderItem, UUID orderId) {
+        Order order = findOrderById(orderId);
+        if (order == null) {
+            throw new RuntimeException("Order not found with id: " + orderId);
+        }
+
+        order.addOrderItem(orderItem);
+        return orderRepository.save(order);
+    }
+}
