@@ -9,6 +9,16 @@ services:
     depends_on:
       - db
 
+  payment-service:
+    build:
+      context: ./payment-service
+      dockerfile: Dockerfile
+    container_name: payment-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+
   db:
     image: 'postgres:13.22-alpine'
     container_name: db
