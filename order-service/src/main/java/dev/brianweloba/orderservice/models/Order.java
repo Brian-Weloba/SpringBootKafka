@@ -9,19 +9,16 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 
 @Setter
 @Getter
 @Entity
-@Data
-@AllArgsConstructor
 @Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Status status;
     private double amount = 0;
     //TODO: Add Currency handling

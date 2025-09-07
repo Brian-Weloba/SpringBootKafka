@@ -24,7 +24,7 @@ public class OrderService {
         return this.orderRepository.save(order);
     }
 
-    public Order findOrderById(UUID id){
+    public Order findOrderById(Long id){
         Optional<Order> orderOptional = this.orderRepository.findById(id);
         return orderOptional.orElse(null);
     }
@@ -33,7 +33,7 @@ public class OrderService {
         return  this.orderRepository.findAll();
     }
 
-    public Order addOrderItem(OrderItem orderItem, UUID orderId) {
+    public Order addOrderItem(OrderItem orderItem, Long orderId) {
         Order order = findOrderById(orderId);
         if (order == null) {
             throw new RuntimeException("Order not found with id: " + orderId);

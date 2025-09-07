@@ -4,6 +4,8 @@ import dev.brianweloba.paymentsservice.model.Payment;
 import dev.brianweloba.paymentsservice.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PaymentService {
     private final PaymentRepository paymentRepository;
@@ -17,6 +19,10 @@ public class PaymentService {
     }
 
     public Payment getPaymentById(Long id){
-        return this.paymentRepository.findById(id);
+        return this.paymentRepository.findById(id).orElse(null);
+    }
+
+    public List<Payment> getAll(){
+        return this.paymentRepository.findAll();
     }
 }

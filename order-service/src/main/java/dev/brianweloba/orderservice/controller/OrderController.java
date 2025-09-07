@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -41,8 +40,14 @@ public class OrderController {
     }
 
     @PostMapping("create/order-item/{orderId}")
-    public Order createOrderItem(@RequestBody OrderItem orderItem, @PathVariable String orderId){
-        UUID id = UUID.fromString(orderId);
-        return this.orderService.addOrderItem(orderItem,id);
+    public ResponseEntity<Object> createOrderItem(@RequestBody OrderItem orderItem, @PathVariable String orderId){
+        try {
+            Long id = Long.parseLong(orderId);
+            Order order = this.orderService.addOrderItem(orderItem, id);
+            if(order== null) return new ResponseEntity<>("Order not found",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(order,HttpStatus.CREATED);
+        }catch (NumberFormatException e){
+            return new ResponseEntity<>("Invalid id",HttpStatus.BAD_REQUEST);
+        }
     }
 }

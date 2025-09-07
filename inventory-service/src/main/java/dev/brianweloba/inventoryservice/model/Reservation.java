@@ -1,6 +1,6 @@
-package dev.brianweloba.paymentsservice.model;
+package dev.brianweloba.inventoryservice.model;
 
-import dev.brianweloba.paymentsservice.enums.Status;
+import dev.brianweloba.inventoryservice.enums.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,24 +10,21 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.UUID;
 
-@Entity
 @Getter
 @Setter
-public class Payment {
+@Entity
+public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long order_id;
+    private String sku;
+    private int qty;
     private Status status;
-    private String comment;
-    private UUID txn_ref;
     private Timestamp created_at;
 
-    public Payment(){
+    public  Reservation(){
         this.created_at = Timestamp.from(Instant.now());
-        this.txn_ref = UUID.randomUUID();
     }
-
 }
