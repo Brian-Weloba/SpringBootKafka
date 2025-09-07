@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public record PaymentAuthorizedData(
         UUID orderId,
-        long amountMinor,
+        double amount,
         String currency,
         String authId,          // gateway auth reference
         String provider         // optional: "stripe", "adyen", etc.

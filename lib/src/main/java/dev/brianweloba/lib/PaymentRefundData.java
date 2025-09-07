@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public record PaymentRefundData(
         UUID orderId,
-        long amountMinor,
+        double amount,
         String currency,
         String refundId,
         String reason

@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Setter
@@ -17,13 +18,13 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private Status status;
     private double amount = 0;
     //TODO: Add Currency handling
     private String currency;
-
+    private UUID customerId;
     private PaymentStatus payment_status;
     private InventoryStatus inventory_status;
     @Version

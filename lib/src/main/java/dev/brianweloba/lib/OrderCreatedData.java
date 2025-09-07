@@ -7,6 +7,6 @@ public record OrderCreatedData(
         UUID orderId,
         UUID customerId,
         String currency,            // ISO 4217, e.g., "GBP"
-        long totalMinor ,          // minor units
+        double total ,          // minor units
         List<OrderItem> items
 ) {}

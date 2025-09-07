@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public record PaymentFailedData(
         UUID orderId,
-        long amountMinor,
+        double amount,
         String currency,
         Enums.PaymentFailReason reason
 ) {}

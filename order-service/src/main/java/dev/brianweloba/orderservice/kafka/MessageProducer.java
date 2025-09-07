@@ -2,10 +2,14 @@ package dev.brianweloba.orderservice.kafka;
 
 import dev.brianweloba.lib.EventEnvelope;
 import dev.brianweloba.lib.OrderCreatedData;
-import dev.brianweloba.orderservice.models.Order;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.CompletableFuture;
+
+@Slf4j
 @Component
 public class MessageProducer {
 
@@ -15,7 +19,17 @@ public class MessageProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(String topic, EventEnvelope<OrderCreatedData> data){
-        kafkaTemplate.send(topic,data);
+    public CompletableFuture<SendResult<String, EventEnvelope<OrderCreatedData>>> createOrder(EventEnvelope<OrderCreatedData> data){
+        return kafkaTemplate.send("orders.v1", data)
+                .whenComplete((result, ex) -> {
+                    if (ex != null) {
+                        log.error("Failed to send order event: {}", data, ex);
+                        // TODO: Consider implementing retry logic or dead letter queue
+                    } else {
+                        log.debug("Order event sent: offset={}, partition={}",
+                                result.getRecordMetadata().offset(),
+                                result.getRecordMetadata().partition());
+                    }
+                });
     }
 }
