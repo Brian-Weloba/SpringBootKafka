@@ -1,4 +1,12 @@
 package dev.brianweloba.lib;
 
-public class OrderCreatedData {
-}
+import java.util.List;
+import java.util.UUID;
+
+public record OrderCreatedData(
+        UUID orderId,
+        UUID customerId,
+        String currency,            // ISO 4217, e.g., "GBP"
+        long totalMinor ,          // minor units
+        List<OrderItem> items
+) {}

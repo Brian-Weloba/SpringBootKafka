@@ -1,4 +1,11 @@
 package dev.brianweloba.lib;
 
-public class InventoryReservedData {
+import java.util.List;
+import java.util.UUID;
+
+public record InventoryReservedData(
+        UUID orderId,
+        List<Item> items
+) {
+    public record Item(String sku, int qty) {}
 }

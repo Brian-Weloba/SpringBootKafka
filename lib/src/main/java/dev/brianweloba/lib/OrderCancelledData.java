@@ -4,5 +4,5 @@ import java.util.UUID;
 
 public record OrderCancelledData(
         UUID orderId,
-        String reason
+        Enums.OrderCancelReason reason
 ) {}

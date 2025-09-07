@@ -1,4 +1,5 @@
 package dev.brianweloba.lib;
 
-public class OrderConfirmedData {
-}
+import java.util.UUID;
+
+public record OrderConfirmedData(UUID orderId) {}

@@ -11,12 +11,9 @@ import java.util.*;
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
 
-
-    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
+    public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
-        this.orderItemRepository = orderItemRepository;
     }
 
     public Order addOrder(Order order) throws NullPointerException,IllegalArgumentException{

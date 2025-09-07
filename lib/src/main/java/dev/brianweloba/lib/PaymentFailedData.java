@@ -1,4 +1,10 @@
 package dev.brianweloba.lib;
 
-public class PaymentFailedData {
-}
+import java.util.UUID;
+
+public record PaymentFailedData(
+        UUID orderId,
+        long amountMinor,
+        String currency,
+        Enums.PaymentFailReason reason
+) {}
