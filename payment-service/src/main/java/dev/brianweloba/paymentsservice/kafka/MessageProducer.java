@@ -1,7 +1,6 @@
-package dev.brianweloba.orderservice.kafka;
+package dev.brianweloba.paymentsservice.kafka;
 
-import dev.brianweloba.lib.EventEnvelope;
-import dev.brianweloba.lib.OrderCreatedData;
+import dev.brianweloba.lib.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -13,23 +12,41 @@ import java.util.concurrent.CompletableFuture;
 @Component
 public class MessageProducer {
 
-    private final KafkaTemplate<String, EventEnvelope<OrderCreatedData>> kafkaTemplate;
+        private final KafkaTemplate<String, EventEnvelope<?>> kafkaTemplate;
 
-    public MessageProducer(KafkaTemplate<String, EventEnvelope<OrderCreatedData>> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
+        public MessageProducer(KafkaTemplate<String, EventEnvelope<?>> kafkaTemplate) {
+            this.kafkaTemplate = kafkaTemplate;
+        }
+
+        public CompletableFuture<SendResult<String, EventEnvelope<?>>> sendEvent(
+                String topic, EventEnvelope<?> data) {
+            return kafkaTemplate.send(topic, data)
+                    .whenComplete((result, ex) -> {
+                        if (ex != null) {
+                            log.error("Failed to send event to topic {}: {}", topic, data, ex);
+                        } else {
+                            log.debug("Event sent to topic {}: offset={}, partition={}",
+                                    topic,
+                                    result.getRecordMetadata().offset(),
+                                    result.getRecordMetadata().partition());
+                        }
+                    });
+        }
+
+        // Convenience methods - no casting needed
+        public CompletableFuture<SendResult<String, EventEnvelope<?>>> paymentAuthorized(
+                EventEnvelope<PaymentAuthorizedData> data) {
+            return sendEvent("payments.v1", data);
+        }
+
+        public CompletableFuture<SendResult<String, EventEnvelope<?>>> paymentRejected(
+                EventEnvelope<PaymentFailedData> data) {
+            return sendEvent("payments.v1", data);
+        }
+
+        public CompletableFuture<SendResult<String, EventEnvelope<?>>> paymentReversed(
+                EventEnvelope<PaymentRefundData> data) {
+            return sendEvent("payments.v1", data);
+        }
     }
 
-    public CompletableFuture<SendResult<String, EventEnvelope<OrderCreatedData>>> createOrder(EventEnvelope<OrderCreatedData> data){
-        return kafkaTemplate.send("orders.v1", data)
-                .whenComplete((result, ex) -> {
-                    if (ex != null) {
-                        log.error("Failed to send order event: {}", data, ex);
-                        // TODO: Consider implementing retry logic or dead letter queue
-                    } else {
-                        log.debug("Order event sent: offset={}, partition={}",
-                                result.getRecordMetadata().offset(),
-                                result.getRecordMetadata().partition());
-                    }
-                });
-    }
-}

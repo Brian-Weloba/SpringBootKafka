@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class KafkaListeners {
     @KafkaListener(
-            topics = "orders.v1",
-            groupId = "groupId"
+            topics = "payments.v1",
+            groupId = "orders-svc"
     )
     public void listener(EventEnvelope<OrderCreatedData> data){
         System.out.println("Event: "+data.eventType());

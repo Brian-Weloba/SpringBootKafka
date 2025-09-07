@@ -1,6 +1,5 @@
 package dev.brianweloba.paymentsservice.controller;
 
-import dev.brianweloba.paymentsservice.PaymentsServiceApplication;
 import dev.brianweloba.paymentsservice.model.Payment;
 import dev.brianweloba.paymentsservice.service.PaymentService;
 import org.springframework.http.HttpStatus;

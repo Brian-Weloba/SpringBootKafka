@@ -71,17 +71,14 @@ public class OrderService {
     public CompletableFuture<PaymentResult> submitPaymentAsync(UUID orderId) {
         Order order = findOrderById(orderId);
 
-        order.setPayment_status(PaymentStatus.PROCESSING);
-        orderRepository.save(order);
-
         EventEnvelope<OrderCreatedData> data = createOrderEvent(order);
-        CompletableFuture<SendResult<String, EventEnvelope<OrderCreatedData>>> future =
+        CompletableFuture<SendResult<String, EventEnvelope<?>>> future =
                 this.messageProducer.createOrder(data);
 
         return future
                 .thenApply(result -> {
                     log.info("Order event sent successfully: {}", result.getRecordMetadata());
-                    order.setPayment_status(PaymentStatus.PENDING);
+                    order.setPayment_status(PaymentStatus.PROCESSING);
                     orderRepository.save(order);
                     return new PaymentResult(true, "Payment processing started");
                 })

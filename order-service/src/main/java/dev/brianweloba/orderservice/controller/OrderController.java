@@ -4,7 +4,6 @@ import dev.brianweloba.orderservice.service.OrderService;
 import dev.brianweloba.orderservice.models.Order;
 import dev.brianweloba.orderservice.models.OrderItem;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +63,7 @@ public class OrderController {
                     if (result.success()) {
                         return ResponseEntity.accepted()
                                 .body(Map.of("message", "Payment processing started",
-                                        "status", "PENDING"));
+                                        "status", "PROCESSING"));
                     } else {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                 .body(Map.of("error", "Failed to process payment",

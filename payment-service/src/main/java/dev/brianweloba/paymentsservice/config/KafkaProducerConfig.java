@@ -1,4 +1,4 @@
-package dev.brianweloba.orderservice.config;
+package dev.brianweloba.paymentsservice.config;
 
 import dev.brianweloba.lib.EventEnvelope;
 import dev.brianweloba.lib.OrderCreatedData;
@@ -22,7 +22,7 @@ public class KafkaProducerConfig {
     private String bootstrapPort;
 
     @Bean
-    public ProducerFactory<String, EventEnvelope<OrderCreatedData>> producerFactory(){
+    public ProducerFactory<String, EventEnvelope<Object>> producerFactory(){
         Map<String,Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapPort);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -32,7 +32,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String,EventEnvelope<OrderCreatedData>> kafkaTemplate(){
+    public KafkaTemplate<String,EventEnvelope<Object>> kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
     }
 }

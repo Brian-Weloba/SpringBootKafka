@@ -1,4 +1,4 @@
-package dev.brianweloba.orderservice.config;
+package dev.brianweloba.paymentsservice.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,7 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic orderTopic(){
-        return TopicBuilder.name("orders.v1")
+        return TopicBuilder.name("payments.v1")
                 .build();
     }
 }
