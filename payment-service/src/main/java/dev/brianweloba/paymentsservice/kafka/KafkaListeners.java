@@ -6,7 +6,6 @@ import dev.brianweloba.lib.OrderCreatedData;
 import dev.brianweloba.paymentsservice.model.Payment;
 import dev.brianweloba.paymentsservice.service.PaymentService;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.stereotype.Component;
 
 @Component

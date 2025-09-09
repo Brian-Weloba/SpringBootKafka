@@ -1,7 +1,6 @@
 package dev.brianweloba.paymentsservice.config;
 
 import dev.brianweloba.lib.EventEnvelope;
-import dev.brianweloba.lib.OrderCreatedData;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;

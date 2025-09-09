@@ -1,7 +1,6 @@
 package dev.brianweloba.orderservice.config;
 
 import dev.brianweloba.lib.EventEnvelope;
-import dev.brianweloba.lib.OrderCreatedData;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
