@@ -1,7 +1,6 @@
 package dev.brianweloba.paymentsservice.config;
 
 import dev.brianweloba.lib.EventEnvelope;
-import dev.brianweloba.lib.OrderCreatedData;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,10 +38,14 @@ public class KafkaConsumerConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, EventEnvelope<Object>>
-    kafkaListenerContainerFactory ( ConsumerFactory<String,EventEnvelope<Object>> consumerFactory){
+    orderCreatedFactory ( ConsumerFactory<String,EventEnvelope<Object>> consumerFactory){
         ConcurrentKafkaListenerContainerFactory<String , EventEnvelope<Object>> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
+        factory.setRecordFilterStrategy(record->{
+            EventEnvelope<?> event = record.value();
+            return !"order.created".equals(event.eventType());
+        });
         return factory;
     }
 

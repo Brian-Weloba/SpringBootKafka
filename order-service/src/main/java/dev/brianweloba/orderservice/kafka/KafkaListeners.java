@@ -11,6 +11,6 @@ public class KafkaListeners {
             groupId = "orders-svc"
     )
     public void listener(EventEnvelope<OrderCreatedData> data){
-        System.out.println("Event: "+data.eventType());
+        System.out.println("Event: "+data.toString());
     }
 }
